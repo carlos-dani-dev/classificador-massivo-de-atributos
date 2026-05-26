@@ -1,0 +1,3 @@
+data_prep/raw/raw_celeba/img_align_celeba
+data_prep/raw/raw_casual/dataset
+*.pkl
