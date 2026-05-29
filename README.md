@@ -7,7 +7,7 @@
 
 ### Fluxo do código
 <p>
-  O classificador foi implementado seguindo, em ordem, 3 processos bem definidos:<br>
+  O classificador foi implementado e utilizado seguindo, nesta ordem, 3 processos bem definidos:<br>
 <table>
   <tr><td><a href="https://github.com/carlos-dani-dev/classificador-massivo-de-atributos/tree/main/data_prep">1º processo</a></td><td>Preparação dos datasets (dados crus).</td></tr>
   <tr><td><a href="https://github.com/carlos-dani-dev/classificador-massivo-de-atributos/tree/main/dnn">2º processo</a></td><td>Treinamento e definição da rede neural do modelo.</td></tr>
