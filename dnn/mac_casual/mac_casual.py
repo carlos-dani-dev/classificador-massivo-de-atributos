@@ -30,8 +30,8 @@ INITIAL_LR = 1e-005
 
 def load_embeddings():
     
-    cc_embeddings = np.vstack(DF_CASUAL["face embedding"])
-    cc_labels = np.vstack(DF_CASUAL["fitz_type"])
+    cc_embeddings = np.vstack(DF_CASUAL["face embedding"].values)
+    cc_labels = np.vstack(DF_CASUAL["fitz_type"].values)
     
     return cc_embeddings, cc_labels
 
