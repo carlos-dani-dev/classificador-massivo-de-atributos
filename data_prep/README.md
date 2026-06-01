@@ -48,13 +48,13 @@ Após a vetorização completa, o balanceamento é realizado com base na distrib
 
 ```mermaid
 graph TD
-    A[Base de Imagens Bruta] --> B[loader_{dataset}.py]
+    A[Base de Imagens Bruta] --> B[loader_.py]
     B --> C{Face Detectada?}
     C -- Sim --> D[Recorte da Face]
     C -- Não --> E[Descarte/Próxima Imagem]
     D --> F[Extração de Embeddings - FaceNet]
     F --> G[Concatenação: Vetor + Anotações]
-    G --> H[balancing_{dataset}.py]
+    G --> H[balancing_.py]
     H --> I{Estratégia Escolhida}
     I -- Casual Conversations --> J[Oversampling: SMOTE]
     I -- CelebA --> K[Undersampling: Exclusão Arbitrária]
