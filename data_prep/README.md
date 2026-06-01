@@ -44,7 +44,7 @@ Após a vetorização completa, o balanceamento é realizado com base na distrib
 
 ---
 
-### Fluxo Visual de Execução
+## Fluxo Visual de Execução
 
 ```mermaid
 graph TD
