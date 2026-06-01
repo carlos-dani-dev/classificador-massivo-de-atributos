@@ -24,11 +24,34 @@
 ### O pré-processamento
 <p>As etapas de pré-processamento de cada uma das bases de imagens segue a seguinte ordem:<br>
 <b>1º)</b> Vetorização via FaceNet. O resultado desta etapa é um DataFrame Pandas, em formato .pkl, com os embeddings e os seus respectivos atributos pré-anotados.<br>
-<b>2º)</b> Balanceamento da base de imagens com base em um dos atributos. O algoritmo de oversampling escolhido foi o SMOTE.
+- proc/proc_celeba/embeddings_celeba.pkl<br>
+- proc/proc_casual/embeddings_casual.pkl<br>
+<b>2º)</b> Balanceamento das bases de imagens já vetorizadas com base em um dos atributos. O algoritmo de oversampling escolhido foi o SMOTE.
 </p>
 
 
 ### 1º) Vetorização via FaceNet
-<p>Para esta etapa, o script python <b><i>loader_{dataset_name}.py</i></b>, percorre o caminho de pastas da base de imagens e gera embeddings por batchs de imagens.<br>
+<p>
+Para esta etapa, o script python <b><i>loader_{dataset_name}.py</i></b>, percorre o caminho de pastas da base de imagens e gera embeddings por batchs de imagens.<br>
 Para gerar os batchs de embeddings, cada batch de imagem:<br>
-<b>1º) </b><br></p>
+<ul>
+	<li><b>- Extrai a face, caso seja detectada</b></li>
+	<li><b>- Recorta a face detectada</b></li>
+	<li><b>- Vetoriza face a face, concatenando-a com sua respectiva anotação</b></li>
+</ul>
+</p>
+
+
+### 2º) Balanceamento das bases de imagens
+<p>
+Para cada base de imagem vetorizada, escolhemos o atributo mais relevante e balanceamos todo a base de acordo com a sua distribuição.<br>
+Para isso:<br>
+<ul>
+	<li><b>- Definimos o atributo que será utilizado como pivô para o balanceamento da base de dados inteira
+	<li><b>- Decide-se se o princípio de balanceamento será por <i>oversampling</i> ou <i>undersampling</i>. Decidimos por oversampling para o casual e undersampling para o celeba</b></li>
+	<li><b>- Por fim, definimos o método de oversampling ou undersampling. Neste caso, o método de oversampling escolhido foi o SMOTE
+</ul>
+O script python <b><i>balancing_{dataset_name}.py</i></b>realiza o balanceamento das suas respectivas bases de imagem.
+</p>
+
+### Fluxo visual de execução
