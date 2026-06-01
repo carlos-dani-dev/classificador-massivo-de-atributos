@@ -1,57 +1,63 @@
-## data_prep
-<p>
-  Nesta pasta, realizei o pré-processamento das base de dados que usei para treinar o classificador massivo.
-</p>
+# Vetorização e Balanceamento de Dados
 
-<p><br></p>
+Este diretório contém o pipeline de pré-processamento das bases de dados utilizadas para o treinamento das instâncias do classificador. 
 
-### As bases de imagens utilizadas
-<p>
-  Utilizei 2 bases de imagens diferentes, que são definidas a seguir:<br>
-  <table>
-    <tr><td><strong>Base de dados</strong></td><td><strong>Descrição</strong></td><td><strong>Quantidade de imagens</strong></td></tr>
-    <tr><td><a href="https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html">CelebA Dataset</a></td>
-      <td>Composto por mais de 200.000 imagens anotadas automaticamente com 40 atributos binários. Dentre eles:
-      young, have_mustache, male</td><td>Utilizou-se 202.000 imagens, do total disponível</td></tr>
-    <tr><td><a href="https://ai.meta.com/datasets/casual-conversations-v2-dataset/">Casual Conversations v2</a></td>
-      <td>Composto por mais de 26.000 vídeos, divididos em frames, com atributos autoanotados. Dentre eles:
-      fitzpatrick_skintone, monk_scale, hair_type, hair_color e eye_color</td><td>Utilizou-se 230.000 imagens, do total de frames disponíveis</td></tr>
-  </table>
-</p>
+O fluxo de preparação de cada base de imagens consiste primordialmente em duas etapas:
+1. **Vetorização com FaceNet**
+2. **Balanceamento de Classes** (via *Oversampling* com SMOTE ou *Undersampling* genérico por exclusão de excedentes)
 
-<p><br></p>
+---
 
-### O pré-processamento
-<p>As etapas de pré-processamento de cada uma das bases de imagens segue a seguinte ordem:<br>
-<b>1º)</b> Vetorização via FaceNet. O resultado desta etapa é um DataFrame Pandas, em formato .pkl, com os embeddings e os seus respectivos atributos pré-anotados.<br>
-- proc/proc_celeba/embeddings_celeba.pkl<br>
-- proc/proc_casual/embeddings_casual.pkl<br>
-<b>2º)</b> Balanceamento das bases de imagens já vetorizadas com base em um dos atributos. O algoritmo de oversampling escolhido foi o SMOTE.
-</p>
+## Bases de Dados Utilizadas
 
+Foram utilizadas duas bases de dados distintas, configuradas conforme a tabela abaixo:
 
-### 1º) Vetorização via FaceNet
-<p>
-Para esta etapa, o script python <b><i>loader_{dataset_name}.py</i></b>, percorre o caminho de pastas da base de imagens e gera embeddings por batchs de imagens.<br>
-Para gerar os batchs de embeddings, cada batch de imagem:<br>
-<ul>
-	<li><b>- Extrai a face, caso seja detectada</b></li>
-	<li><b>- Recorta a face detectada</b></li>
-	<li><b>- Vetoriza face a face, concatenando-a com sua respectiva anotação</b></li>
-</ul>
-</p>
+| Base de Dados | Descrição | Quantidade de Imagens |
+| :--- | :--- | :--- |
+| [CelebA Dataset](https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) | Composto por mais de 200.000 imagens anotadas automaticamente com 40 atributos binários (ex: `young`, `have_mustache`, `male`). | 202.000 imagens selecionadas do total disponível. |
+| [Casual Conversations v2](https://ai.meta.com/datasets/casual-conversations-v2-dataset/) | Composto por mais de 26.000 vídeos divididos em frames, contendo atributos autoanotados (ex: `fitzpatrick_skintone`, `monk_scale`, `hair_type`, `hair_color`, `eye_color`). | 230.000 frames extraídos do total disponível. |
 
+---
 
-### 2º) Balanceamento das bases de imagens
-<p>
-Para cada base de imagem vetorizada, escolhemos o atributo mais relevante e balanceamos todo a base de acordo com a sua distribuição.<br>
-Para isso:<br>
-<ul>
-	<li><b>- Definimos o atributo que será utilizado como pivô para o balanceamento da base de dados inteira
-	<li><b>- Decide-se se o princípio de balanceamento será por <i>oversampling</i> ou <i>undersampling</i>. Decidimos por oversampling para o casual e undersampling para o celeba</b></li>
-	<li><b>- Por fim, definimos o método de oversampling ou undersampling. Neste caso, o método de oversampling escolhido foi o SMOTE
-</ul>
-O script python <b><i>balancing_{dataset_name}.py</i></b>realiza o balanceamento das suas respectivas bases de imagem.
-</p>
+## 1. Vetorização via FaceNet
 
-### Fluxo visual de execução
+Nesta etapa, o script Python `loader_{dataset_name}.py` percorre os diretórios das imagens e gera os *embeddings* processados em lotes (*batches*). 
+
+Para cada lote, a extração de características segue rigorosamente a seguinte ordem de execução:
+* **Detecção Facial:** Identificação e isolamento da face na imagem (quando detectada).
+* **Recorte (*Cropping*):** Redimensionamento e recorte da região exata da face identificada.
+* **Vetorização e Concatenação:** Geração dos vetores de características face a face, concatenando-os diretamente com suas respectivas anotações binárias/categóricas.
+
+---
+
+## 2. Balanceamento das Bases de Imagens
+
+Após a vetorização completa, o balanceamento é realizado com base na distribuição de classes do atributo mais relevante de cada base. O script `balancing_{dataset_name}.py` executa esse processo seguindo os critérios abaixo:
+
+1. **Seleção do Pivô:** Escolha do atributo principal que servirá de referência para o balanceamento da base.
+2. **Definição da Estratégia:**
+   * **Oversampling:** Aplicado ao atributo `fitz_type` na base *Casual Conversations v2*.
+   * **Undersampling:** Aplicado ao atributo `Male` na base *CelebA Dataset*.
+3. **Aplicação do Método:**
+   * Para o cenário de *oversampling*, utilizou-se o algoritmo **SMOTE**.
+   * Para o cenário de *undersampling*, aplicou-se a **exclusão aleatória dos dados excedentes** da classe majoritária.
+
+---
+
+### Fluxo Visual de Execução
+
+```mermaid
+graph TD
+    A[Base de Imagens Bruta] --> B[loader_{dataset}.py]
+    B --> C{Face Detectada?}
+    C -- Sim --> D[Recorte da Face]
+    C -- Não --> E[Descarte/Próxima Imagem]
+    D --> F[Extração de Embeddings - FaceNet]
+    F --> G[Concatenação: Vetor + Anotações]
+    G --> H[balancing_{dataset}.py]
+    H --> I{Estratégia Escolhida}
+    I -- Casual Conversations --> J[Oversampling: SMOTE]
+    I -- CelebA --> K[Undersampling: Exclusão Arbitrária]
+    J --> L[Base Pronta para Treinamento]
+    K --> L
+```
