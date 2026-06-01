@@ -4,10 +4,9 @@ Este reposítório implementa o classificador massivo de atriutos proposto no pa
 O trabalho proposto foi desenvolvido como projeto de pesquisa de Iniciação Científica CNPQ.
 
 
-# Arquivos
+## Arquivos
 ```text
 mac/
-├── .vscode/
 ├── cross_labelling/
 │   ├── casual_annotated.pkl
 │   ├── celeba_annotated.pkl
