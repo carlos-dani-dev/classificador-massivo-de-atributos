@@ -3,6 +3,14 @@
 Este reposítório implementa o classificador massivo de atriutos proposto no paper <a href="https://github.com/pterhoer/maad-face">MAAD-Face: A Massively Annotated Attribute Dataset for Face Images</a>.<br>
 O trabalho proposto foi desenvolvido como projeto de pesquisa de Iniciação Científica CNPQ.
 
+## Fluxo de execução
+<p>
+  O classificador de atributos é resultado de um pipeline bem definido:<br>
+1º) Vetorização e balanceamento das bases de imagens pré-anotadas que treinarão a rede neural<br>
+2º) Cross-labelling das bases de imagens pré-anotadas<br>
+3º) Treinamento da versão mais robusta da rede neural com uma base de imagens unificada mais completa
+</p>
+<p>Cada uma das etapas pode ser verificada em sua respectiva subpastas do projeto.</p>
 
 ## Arquivos
 ```text
@@ -48,3 +56,4 @@ mac/
 │   │   └── superdataset_label_encoders.pkl
 │   └── README.md
 └── README.md
+```
