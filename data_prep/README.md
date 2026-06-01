@@ -4,7 +4,7 @@ Este diretório contém o pipeline de pré-processamento das bases de dados util
 
 O fluxo de preparação de cada base de imagens consiste primordialmente em duas etapas:
 - **Vetorização com FaceNet**
-- **Balanceamento de Classes** (via *Oversampling* com SMOTE ou *Undersampling* genérico por exclusão de excedentes)
+- **Balanceamento de classes** (via *Oversampling* com SMOTE ou *Undersampling* genérico por exclusão de excedentes)
 <p><br></p>
 
 ---
@@ -26,9 +26,9 @@ Foram utilizadas duas bases de iamgens distintas, configuradas conforme a tabela
 É a primeira etapa do pré-processamento, e é nela em que o script Python `loader_{dataset_name}.py` percorre os diretórios das bases e gera os *embeddings* processados em lotes (*batches*). 
 
 Para cada lote, a extração de características segue rigorosamente a seguinte ordem de execução:
-1º) **Detecção Facial:** Identificação e isolamento da face na imagem (quando detectada).
+1º) **Detecção facial:** Identificação e isolamento da face na imagem (quando detectada).
 2º) **Recorte (*Cropping*):** Redimensionamento e recorte da região exata da face identificada.
-3º) **Vetorização e Concatenação:** Geração dos vetores de características face a face, concatenando-os diretamente com suas respectivas anotações binárias/categóricas.
+3º) **Vetorização e concatenação:** Geração dos vetores de características face a face, concatenando-os diretamente com suas respectivas anotações binárias/categóricas.
 <p><br></p>
 
 ---
